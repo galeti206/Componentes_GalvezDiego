@@ -18,6 +18,25 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 
+/**
+ *  Temporizador con cuenta regresiva que ejecuta una función indicada al finalizar.
+ *  <p>Este componente se trata de un temporizador gráfico que realiza una cuenta atrás con las siguientes características:</p>
+ *  <ul>
+ *      <li>El componente se basa es una etiqueta que dispone de una propiedad llamada tiempo, de tipo int,
+ *      que representa los segundos que van a transcurrir desde su creación hasta que llega a cero.</li>
+ *      <li>Cada segundo disminuye en uno el valor de tiempo, que visualizamos en el texto de la etiqueta.</li>
+ *      <li>Para programarlo se utiliza un atributo de tipo javafx.animation.Timeline, que será el que marque
+ *      cuando se cambia el valor de tiempo.</li>
+ *      <li>Al finalizar la cuenta atrás se lanza un evento de finalización de cuenta que puede ser recogido
+ *      por la aplicación en la que se incluya el componente.</li>
+ *  </ul>
+ *
+ *
+ * @author Diego Gálvez Andrade
+ * @version 1.0
+ * @since JavaFX 2.0
+ */
+
 public class Temporizador extends AnchorPane {
     @FXML
     private Label lbl1;
@@ -25,11 +44,20 @@ public class Temporizador extends AnchorPane {
     private Label lblSegundos;
     @FXML
     private Label lbl2;
+    /**
+     * Segundos del temporizador. Posee un escuchador y avisa cuando varía su valor.
+     */
     private IntegerProperty segundos;
     private Timeline temporizador;
+    /**
+     * Manejador de eventos para la función de finalización el temporizador. Maneja la función a ejecutar cuando finaliza el temporizador.
+     */
     private EventHandler<ActionEvent> onFinished;
     private boolean autoReverse;
 
+    /**
+     * Crea un nuevo temporizador.
+     */
     public Temporizador(){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("temporizador.fxml"));
         fxmlLoader.setRoot(this);
@@ -50,6 +78,9 @@ public class Temporizador extends AnchorPane {
         });
     }
 
+    /**
+     * Inicia el temporizador. Método que inicia el temporizador y dentro de el se define la funcionalizad para cuando finalice la cuenta.
+     */
     public void play(){
         temporizador = new Timeline();
         temporizador.setAutoReverse(false);
@@ -71,6 +102,10 @@ public class Temporizador extends AnchorPane {
         temporizador.play();
     }
 
+    /**
+     * Establece la propiedad onFinished del temporizador
+     * @param onFinished Evento onFinished a ejecutar
+     */
     public void setOnFinished(EventHandler<ActionEvent> onFinished) {
         this.onFinished = onFinished;
     }
@@ -93,10 +128,18 @@ public class Temporizador extends AnchorPane {
         this.segundos.set(segundos);
     }
 
+    /**
+     * Comprueba el reinicio automático del temporizador.
+     * @return true si está activado, false si no lo está
+     */
     public boolean isAutoReverse() {
         return autoReverse;
     }
 
+    /**
+     * Establece la propiedad autoReverse.
+     * @param autoReverse true si está activado; false si no lo está
+     */
     public void setAutoReverse(boolean autoReverse) {
         this.autoReverse = autoReverse;
         temporizador.setAutoReverse(autoReverse);
